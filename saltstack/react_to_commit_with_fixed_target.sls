@@ -1,5 +1,5 @@
 run interface sls:
   local.state.apply:
-    - tgt: {{ data['hostname'] }}
+    - tgt: vmx 
     - arg:
       - check_interface
