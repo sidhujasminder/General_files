@@ -1,11 +1,15 @@
+auto_accept: True
+
 engines:
   - junos_syslog:
       port: 9999
-      topic: jnpr/syslog/hostip/daemon/event
+      topic: jnpr/syslog/hostip/hostname/daemon/event
       daemon:
         - mgd
         - sshd
 
 reactor:
-  - 'jnpr/syslog/*/mgd/UI_COMMIT_COMPLETED':
-    - salt://reactor/react_to_commit.sls
+  - 'jnpr/syslog/*/*/mgd/UI_COMMIT_COMPLETED':
+    -  salt://reactor/react_to_commit.sls
+  - 'salt/minion/*/start':
+    -  salt://reactor/react_to_minion.sls
