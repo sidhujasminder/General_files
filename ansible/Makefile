@@ -2,6 +2,11 @@ all:prequisite virtual-env ansible-awx playbook docker ## install juniper-awx
 
 PWD = $(shell pwd)
 PATH_PROJECTS = $(PWD)/projects
+DOCKERHUB_VERSION = 1.0.1
+POSTGRES_DATA_DIR = /srv/postgres_data
+
+
+
  
 .PHONY: prequisite
 prequisite:
@@ -22,9 +27,13 @@ ansible-awx:
 	
 .PHONY: playbook
 playbook:
+ifdef DOCKERHUB_VERSION
 	echo "\nproject_data_dir=$(PATH_PROJECTS)" >> $(PWD)/awx/installer/inventory
-	. Juniper-awx/bin/activate && \
+	sed -i '' '/dockerhub_version=/s/latest/$(DOCKERHUB_VERSION)/g' $(PWD)/awx/installer/inventory
+	sed -i '' '/postgres_data_dir=/s/*/$(POSTGRES_DATA_DIR)/g' $(PWD)/awx/installer/inventory
+        . Juniper-awx/bin/activate && \
 	ansible-playbook -i $(PWD)/awx/installer/inventory $(PWD)/awx/installer/install.yml
+endif
 
 .PHONY: docker
 docker:

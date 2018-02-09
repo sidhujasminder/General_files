@@ -28,3 +28,6 @@ minion/refresh/proxy01    {
  
 
 ```
+
+Firing a sample event to check if reactor is working:
+salt-run event.send jnpr/syslog/1.1.1.1/jam/mgd/UI_COMMIT_COMPLETED '{"daemon": "mgd","event": "UI_COMMIT_PROGRESS"}'
